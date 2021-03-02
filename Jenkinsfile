@@ -58,6 +58,12 @@ pipeline {
                     bat 'mvn test'
                 }
             }
-        }              
+        }
+        stage('Functional Test'){
+            steps {
+                bat 'docker-compose build'
+                bat 'docker-compose up -d'
+            }    
+        }    
     }
 }
