@@ -50,6 +50,14 @@ pipeline {
                     deploy adapters: [tomcat8(credentialsId: 'Login_TomCat', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks', war: 'target/tasks.war'
                 }
             }
+        }
+        stage('Functional Test'){
+            steps {
+                dir('functional-test') {
+                    git credentialsId: 'GitHubLogin', url: 'https://github.com/klayrocha/tasks-functional-test'
+                    bat 'mvn test'
+                }
+            }
         }              
     }
 }
