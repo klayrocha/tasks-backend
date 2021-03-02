@@ -41,6 +41,15 @@ pipeline {
                     bat 'mvn test'
                 }
             }
-        }            
+        }
+        stage('Deploy Frontend'){
+            steps {
+                dir('frontend') {
+                    git credentialsId: 'GitHubLogin', url: 'https://github.com/klayrocha/tasks-frontend'
+                    bat 'mvn clean package'
+                    deploy adapters: [tomcat8(credentialsId: 'Login_TomCat', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks', war: 'target/tasks.war'
+                }
+            }
+        }              
     }
 }
